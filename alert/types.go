@@ -1,6 +1,6 @@
 package alert
 
-import "qweather/common"
+import "github.com/zhihao0924/qweather/common"
 
 type Query struct {
 	common.CoordinateQuery

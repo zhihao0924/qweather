@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"qweather/common"
-	"qweather/internal/sdk"
+	"github.com/zhihao0924/qweather/common"
+	"github.com/zhihao0924/qweather/internal/sdk"
 )
 
 type Service struct {

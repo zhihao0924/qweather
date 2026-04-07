@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"qweather"
+	"github.com/zhihao0924/qweather"
 )
 
 func MustEnv(key string) string {

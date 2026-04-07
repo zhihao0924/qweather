@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"qweather/internal/sdk"
+	"github.com/zhihao0924/qweather/internal/sdk"
 )
 
 type Service struct {

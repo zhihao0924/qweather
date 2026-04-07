@@ -4,34 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
-	"qweather"
+	"github.com/zhihao0924/qweather/examples/internal/exampleutil"
 )
 
 func main() {
-	host := "m24t2cbqc7.re.qweatherapi.com"
-	apiKey := "2d6102e12c174e799c959e5b125c1684"
-	location := os.Getenv("QWEATHER_LOCATION")
-	if location == "" {
-		location = "101010100"
-	}
+	client := exampleutil.APIKeyClient()
 
-	client, err := qweather.NewClient(qweather.Config{
-		Host:   host,
-		APIKey: apiKey,
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	resp, err := client.Weather.Now(context.Background(), qweather.WeatherQuery{
-		LocationQuery: qweather.LocationQuery{
-			Location: location,
-			Lang:     "zh",
-		},
-		Unit: qweather.UnitMetric,
-	})
+	resp, err := client.Weather.Now(context.Background(), exampleutil.WeatherQuery())
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,13 +1,13 @@
 package qweather
 
 import (
-	"qweather/airquality"
-	"qweather/alert"
-	"qweather/common"
-	"qweather/geo"
-	"qweather/history"
-	"qweather/internal/sdk"
-	"qweather/weather"
+	"github.com/zhihao0924/qweather/airquality"
+	"github.com/zhihao0924/qweather/alert"
+	"github.com/zhihao0924/qweather/common"
+	"github.com/zhihao0924/qweather/geo"
+	"github.com/zhihao0924/qweather/history"
+	"github.com/zhihao0924/qweather/internal/sdk"
+	"github.com/zhihao0924/qweather/weather"
 )
 
 type APIError = sdk.APIError

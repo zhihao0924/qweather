@@ -1,6 +1,6 @@
 package geo
 
-import "qweather/common"
+import "github.com/zhihao0924/qweather/common"
 
 type CityLookupParams struct {
 	Location string

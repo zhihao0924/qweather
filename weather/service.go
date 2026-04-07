@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"qweather/common"
-	"qweather/internal/sdk"
+	"github.com/zhihao0924/qweather/common"
+	"github.com/zhihao0924/qweather/internal/sdk"
 )
 
 type Service struct {

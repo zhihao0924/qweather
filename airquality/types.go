@@ -1,6 +1,6 @@
 package airquality
 
-import "qweather/common"
+import "github.com/zhihao0924/qweather/common"
 
 type CurrentResponse struct {
 	Metadata   common.Metadata `json:"metadata"`

@@ -1,6 +1,6 @@
 package history
 
-import "qweather/common"
+import "github.com/zhihao0924/qweather/common"
 
 type WeatherParams struct {
 	Location string

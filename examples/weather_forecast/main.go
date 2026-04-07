@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"qweather"
-	"qweather/examples/internal/exampleutil"
+	"github.com/zhihao0924/qweather"
+	"github.com/zhihao0924/qweather/examples/internal/exampleutil"
 )
 
 func main() {

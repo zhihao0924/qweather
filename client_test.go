@@ -2,8 +2,8 @@ package qweather
 
 import (
 	"context"
+	"github.com/zhihao0924/qweather/internal/testutil"
 	"net/http"
-	"qweather/internal/testutil"
 	"strings"
 	"testing"
 )

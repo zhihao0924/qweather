@@ -3,7 +3,7 @@ package qweather
 import (
 	"crypto"
 
-	qwauth "qweather/auth"
+	qwauth "github.com/zhihao0924/qweather/auth"
 )
 
 type JWTConfig = qwauth.JWTConfig

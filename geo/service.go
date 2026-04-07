@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"qweather/internal/sdk"
+	"github.com/zhihao0924/qweather/internal/sdk"
 )
 
 type Service struct {
