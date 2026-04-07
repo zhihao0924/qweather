@@ -19,6 +19,27 @@ go get qweather
 
 如果你准备发布到自己的仓库，把 `go.mod` 里的 module 路径改成你的实际仓库地址即可。
 
+## 目录结构
+
+```text
+.
+├── common/               # 跨接口共享模型
+├── auth/                 # JWT 鉴权实现
+├── geo/                  # Geo API
+├── weather/              # Weather API
+├── airquality/           # Air Quality API
+├── alert/                # Weather Alert API
+├── history/              # Historical Weather API
+├── internal/sdk/         # 通用 HTTP 请求与错误处理
+├── internal/testutil/    # 测试辅助代码
+├── client.go             # SDK 入口 Client
+├── aliases.go            # 根包类型别名
+├── auth.go               # JWT 对外包装
+├── compat.go             # 向后兼容的 Client 直调方法
+├── examples/             # 示例与示例说明
+└── *_test.go             # 单元测试
+```
+
 ## 初始化
 
 ### 1. 使用 API KEY
@@ -43,10 +64,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	resp, err := client.WeatherNow(context.Background(), qweather.WeatherQuery{
-		Location: "101010100",
-		Lang:     "zh",
-		Unit:     qweather.UnitMetric,
+	resp, err := client.Weather.Now(context.Background(), qweather.WeatherQuery{
+		LocationQuery: qweather.LocationQuery{
+			Location: "101010100",
+			Lang:     "zh",
+		},
+		Unit: qweather.UnitMetric,
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -92,7 +115,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = client.CityLookup(context.Background(), qweather.CityLookupParams{
+	_, err = client.Geo.Lookup(context.Background(), qweather.CityLookupParams{
 		Location: "beijing",
 		Lang:     "en",
 	})
@@ -105,21 +128,56 @@ func main() {
 ## 已实现接口
 
 ```go
-CityLookup(ctx, CityLookupParams)
-TopCities(ctx, TopCitiesParams)
-WeatherNow(ctx, WeatherQuery)
-WeatherDaily(ctx, DailySpan, WeatherQuery)
-WeatherHourly(ctx, HourlySpan, WeatherQuery)
-MinutelyPrecipitation(ctx, location, lang)
-WeatherAlertCurrent(ctx, latitude, longitude, localTime, lang)
-AirQualityCurrent(ctx, latitude, longitude, lang)
-HistoricalWeather(ctx, HistoricalWeatherParams)
+client.Geo.Lookup(ctx, CityLookupParams)
+client.Geo.TopCities(ctx, TopCitiesParams)
+client.Weather.Now(ctx, WeatherQuery)
+client.Weather.Daily(ctx, DailySpan, WeatherQuery)
+client.Weather.Hourly(ctx, HourlySpan, WeatherQuery)
+client.Weather.MinutelyPrecipitation(ctx, LocationQuery)
+client.Alerts.Current(ctx, AlertQuery)
+client.AirQuality.Current(ctx, CoordinateQuery)
+client.History.Weather(ctx, HistoricalWeatherParams)
 ```
+
+## 示例
+
+先准备环境变量：
+
+```bash
+export QWEATHER_HOST="your-api-host.qweatherapi.com"
+export QWEATHER_API_KEY="your-api-key"
+export QWEATHER_LOCATION="101010100"
+export QWEATHER_LANG="zh"
+export QWEATHER_LAT="39.90"
+export QWEATHER_LON="116.40"
+```
+
+运行示例：
+
+```bash
+go run ./examples/basic
+go run ./examples/geo_lookup
+go run ./examples/weather_forecast
+go run ./examples/airquality_current
+go run ./examples/alert_current
+```
+
+JWT 示例额外需要：
+
+```bash
+export QWEATHER_CREDENTIAL_ID="your-credential-id"
+export QWEATHER_PROJECT_ID="your-project-id"
+export QWEATHER_PRIVATE_KEY_FILE="./ed25519-private.pem"
+go run ./examples/jwt
+```
+
+更多说明见 [examples/README.md](/Users/zhihao/Worker/qweather/examples/README.md)。
 
 ## 设计说明
 
 - `Host` 使用和风天气控制台里的独立 `API Host`，例如 `abc123.def.qweatherapi.com`
 - 为了适配和风天气 2026 年后的域名策略，SDK 默认不会写死公共域名
+- 按领域拆成 `Geo / Weather / AirQuality / Alerts / History` service，`Client` 上保留兼容方法
 - 气象类 `v7` 接口返回里包含 `code`，SDK 会在 `code != 200` 时返回 `*APIError`
 - `airquality/v1` 和 `weatheralert/v1` 使用新的 v1 接口格式，因此不走 `code` 字段判断
 

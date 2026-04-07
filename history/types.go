@@ -1,25 +1,22 @@
-package qweather
+package history
 
-import (
-	"context"
-	"net/http"
-)
+import "qweather/common"
 
-type HistoricalWeatherParams struct {
+type WeatherParams struct {
 	Location string
 	Date     string
 	Lang     string
-	Unit     Unit
+	Unit     common.Unit
 }
 
-type HistoricalWeatherResponse struct {
-	baseResponse
-	FxLink       string                 `json:"fxLink"`
-	WeatherDaily HistoricalWeatherDaily `json:"weatherDaily"`
-	Refer        Refer                  `json:"refer"`
+type WeatherResponse struct {
+	common.BaseResponse
+	FxLink       string       `json:"fxLink"`
+	WeatherDaily WeatherDaily `json:"weatherDaily"`
+	Refer        common.Refer `json:"refer"`
 }
 
-type HistoricalWeatherDaily struct {
+type WeatherDaily struct {
 	Date         string `json:"date"`
 	Sunrise      string `json:"sunrise"`
 	Sunset       string `json:"sunset"`
@@ -39,17 +36,4 @@ type HistoricalWeatherDaily struct {
 	WeatherDay   string `json:"weatherDay"`
 	IconDay      string `json:"iconDay"`
 	HourlyPrecip string `json:"hourlyPrecip"`
-}
-
-func (c *Client) HistoricalWeather(ctx context.Context, params HistoricalWeatherParams) (*HistoricalWeatherResponse, error) {
-	var out HistoricalWeatherResponse
-	if err := c.doJSON(ctx, http.MethodGet, "/v7/historical/weather", map[string]string{
-		"location": params.Location,
-		"date":     params.Date,
-		"lang":     params.Lang,
-		"unit":     string(params.Unit),
-	}, &out); err != nil {
-		return nil, err
-	}
-	return &out, nil
 }

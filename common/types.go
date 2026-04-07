@@ -1,20 +1,27 @@
-package qweather
+package common
 
-type codedResponse interface {
-	getCode() string
-}
-
-type baseResponse struct {
+type BaseResponse struct {
 	Code string `json:"code"`
 }
 
-func (r baseResponse) getCode() string {
+func (r BaseResponse) ResponseCode() string {
 	return r.Code
 }
 
 type Refer struct {
 	Sources []string `json:"sources"`
 	License []string `json:"license"`
+}
+
+type LocationQuery struct {
+	Location string
+	Lang     string
+}
+
+type CoordinateQuery struct {
+	Latitude  float64
+	Longitude float64
+	Lang      string
 }
 
 type Location struct {
@@ -46,3 +53,10 @@ type RGBAColor struct {
 	Blue  int     `json:"blue"`
 	Alpha float64 `json:"alpha"`
 }
+
+type Unit string
+
+const (
+	UnitMetric   Unit = "m"
+	UnitImperial Unit = "i"
+)

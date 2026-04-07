@@ -1,4 +1,4 @@
-package qweather
+package sdk
 
 import (
 	"fmt"
